@@ -1,0 +1,502 @@
+@import './reset.css';
+
+:root {
+    --point-color: #696258;
+    --white-color: #fff;
+    --border-color: #eee;
+    --hover-color: #635c52;
+}
+
+.wrap {
+    position: relative;
+    display: flex;
+}
+.header {
+    width: 20%;
+    background: var(--point-color);
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    color: var(--white-color);
+}
+.header h1 {
+    font-size: 30px;
+    color: var(--white-color);
+    margin-bottom: 70px;
+    padding: 20px;
+}
+.header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--white-color);
+    margin-bottom: 20px;
+    padding: 10px 10px 0 2cqb;
+}
+
+.header h3 > * {
+    color: var(--white-color);
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    padding: 10px 10px 10px 25px;
+}
+/* ====== 메뉴를 눌렀을때 style */
+.header .active {
+    position: relative;
+    background: var(--white-color);
+    color: var(--point-color);
+    font-weight: 600;
+    padding: 10px;
+    margin-left: 15px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+}
+.header .active::before,
+.header .active::after {
+    --border-radius: 3rem;
+    content: '';
+    position: absolute;
+    right: 0;
+    width: var(--border-radius);
+    height: var(--border-radius);
+    background: var(--point-color);
+}
+
+.header .active::after {
+    top: calc(var(--border-radius) * -1);
+    box-shadow: 10px 10px 0 10px var(--white-color);
+    border-radius: 0 0 100vw 0;
+}
+
+.header .active::before {
+    bottom: calc(var(--border-radius) * -1);
+    box-shadow: 10px -10px 0 10px var(--white-color);
+    border-radius: 0 100vw 0 0;
+}
+
+/* ======== 본문 style */
+.content {
+    width: 80%;
+    padding: 20px;
+}
+
+.content_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 50px;
+}
+.content_header .ch_title {
+}
+.content_header .ch_title h3 {
+    font-size: 40px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+.content_header .ch_title p {
+    font-size: 16px;
+    color: #555;
+}
+.content_header .ch_title span {
+    /* color: var(--point-color); */
+}
+.content_header .search {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.content_header .search input {
+    font-size: 16px;
+    width: 90%;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px;
+    display: none;
+}
+.content_header .search input::placeholder {
+    color: #ddd;
+}
+.content_header .search button {
+    padding-bottom: 3px;
+    width: 24px;
+}
+.content_header .search button img {
+    padding-bottom: 3px;
+    width: 100%;
+}
+
+/* list */
+
+.list_wrap {
+}
+.all_title {
+    width: 80%;
+    margin: 0 auto;
+    padding: 80px 0 100px;
+    text-align: center;
+    position: relative;
+}
+
+.all_title h2 {
+    font-family: 'SDSamliphopangche_Outline';
+    font-family: 'TTHakgyoansimMulgyeolB';
+    font-family: 'Cafe24Meongi-W-v1.0';
+    font-size: 94px;
+    margin-bottom: 20px;
+    color: var(--point-color);
+}
+.all_title p {
+    font-size: 24px;
+    color: var(--point-color);
+}
+
+.list_wrap .btn_wrap {
+    display: flex;
+    justify-content: flex-end;
+}
+.list_wrap .write_btn {
+    padding: 10px 20px;
+    background: #f4f4f4;
+    border-radius: 20px;
+    margin: 10px 0 20px;
+    font-weight: 500;
+}
+.list_wrap .write_btn button:hover {
+    background-color: #ddd;
+    transition: all ease-in 0.3s;
+}
+.list_wrap .list_line {
+    border-top: 1px solid var(--border-color);
+    width: 100%;
+    min-height: 300px;
+    position: relative;
+}
+.list_wrap .list_line p {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 16px;
+}
+.list_wrap ul {
+    min-height: 500px;
+    border-top: 1px solid var(--border-color);
+}
+.list_wrap li {
+}
+.list_wrap .list_link {
+    padding: 20px 5px;
+    border-bottom: 1px solid var(--border-color);
+}
+.list_wrap .list_link:hover .title {
+    color: var(--hover-color);
+}
+.list_wrap .lw_top {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.list_wrap .lw_bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.list_wrap .lw_bottom .title {
+    font-size: 18px;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.list_wrap .lw_bottom .title:hover {
+}
+
+/* 글쓰기!! */
+.write {
+    width: 100%;
+}
+.write .write_form {
+    margin-bottom: 80px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+}
+.write .w_top {
+}
+.write .w_top input {
+    display: block;
+    width: 100%;
+    font-size: 18px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 10px;
+}
+.write .w_top input::placeholder {
+    color: #aaa;
+}
+.write .w_mid {
+    margin-bottom: 20px;
+}
+.write .wm_top {
+}
+.write .wm_top input {
+    font-size: 16px;
+    padding: 15px 0;
+}
+.write .wm_top input::placeholder {
+    color: #aaa;
+}
+.write .p_box {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 20px;
+}
+.write .w_mid textarea {
+    font-size: 16px;
+    width: 100%;
+    min-height: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 20px 10px;
+}
+.write .w_mid textarea::placeholder {
+    color: #aaa;
+}
+.write .w_bottom {
+}
+.write .w_bottom .upload input {
+    display: none;
+}
+.write .w_bottom .upload input + label {
+    font-size: 14px;
+    color: #aaa;
+}
+.write .w_bottom .upload input + label em {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    /* background: url('../public/up_i.png') center center / 100% no-repeat; */
+    vertical-align: middle;
+    margin-right: 2px;
+}
+.write .w_bottom .preview {
+    position: relative;
+    border-radius: 10px;
+    object-fit: cover;
+    width: 300px;
+}
+.write .w_bottom .preview .up_img {
+    /* height: auto; */
+    min-width: 300px;
+    max-width: 300px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+}
+.write .w_bottom .preview button {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.write .w_bottom .preview button img {
+    width: 50px;
+    height: 50px;
+}
+.write .save_box {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20px;
+}
+.write .save_box button {
+    padding: 10px 40px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-weight: 600;
+}
+.write .save_box button.btn1 {
+    background: #ddd;
+    color: #fff;
+}
+.write .save_box button.btn1:hover {
+    background: #ccc;
+    transition: all ease 1s;
+}
+.write .save_box button.btn2 {
+    background: var(--point-color);
+    color: #fff;
+}
+.write .save_box button.btn2:hover {
+    background: var(--hover-color);
+    transition: all ease 1s;
+}
+
+/* 상세보기 */
+.detail {
+}
+.detail .detail_wrap {
+    min-height: 600px;
+    padding: 20px 0;
+    border-top: 1px solid var(--border-color);
+}
+.detail .title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    padding: 0 10px;
+}
+.detail .title_l h2 {
+    font-size: 22px;
+    font-weight: 500;
+}
+.detail .title_r {
+    display: flex;
+    gap: 20px;
+}
+.detail .title_r button:hover {
+    color: var(--hover-color);
+}
+
+.detail .info {
+    display: flex;
+    gap: 10px;
+    padding: 0 10px 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+.detail .info h3 {
+    font-weight: 400;
+}
+.detail .info h4 {
+    font-weight: 400;
+}
+
+.detail .contents p {
+    font-size: 16px;
+    white-space: pre-line;
+    padding: 30px 10px;
+}
+
+.modal {
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.2);
+}
+.modal .m_wrap {
+}
+.modal .m_box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--white-color);
+    width: 320px;
+    padding: 50px 20px;
+    border-radius: 20px;
+}
+.modal h1 {
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.modal input {
+    display: block;
+    width: 100%;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+.modal label {
+    display: block;
+    font-size: 12px;
+    color: rgb(169, 24, 24);
+}
+.modal button.m_ok_btn {
+    display: block;
+    width: 100%;
+    padding: 20px 0;
+    margin-top: 40px;
+    background: #eee;
+    border-radius: 20px;
+}
+.modal button.m_close_btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 2px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.test ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    justify-items: center;
+}
+
+.test li {
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    width: 100%;
+}
+
+.test .li_top {
+    width: 100%;
+    height: 350px;
+}
+
+.test img {
+    width: 100%;
+    height: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    object-fit: cover;
+}
+
+.test .text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70px;
+}
+
+.test .no_test {
+    position: relative;
+}
+
+.test .no_test .li_top {
+    position: relative;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+.test .no_test .box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+.test .no_test .li_top img {
+    width: 50px;
+    height: auto;
+    margin-bottom: 20px;
+}
+.test .no_test .li_top p {
+    font-size: 20px;
+    color: var(--hover-color);
+    font-weight: 700;
+}
+.test .no_test .text {
+    color: #aaa;
+}
+
+@media (max-width: 768px) {
+    .test ul {
+        grid-template-columns: repeat(auto-fill, minmax(100%, 1fr));
+    }
+}
