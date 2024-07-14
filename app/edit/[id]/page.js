@@ -63,24 +63,29 @@ export default function Edit() {
                                 setTitle(e.currentTarget.value);
                             }}
                             defaultValue={detail?.title}
+                            required
                         />
                     </div>
                     <div className="w_mid">
                         <div className="wm_top">
                             <input
                                 type="text"
-                                placeholder="닉네임"
+                                maxLength={10}
+                                placeholder="닉네임(최대 10자)"
                                 onChange={(e) => {
-                                    setNickname(e.currentTarget.value);
+                                    setNickname(e.currentTarget.value.trim());
                                 }}
+                                required
                                 defaultValue={detail?.nickname}
                             />
                             <input
                                 type="password"
-                                placeholder="비밀번호"
+                                maxLength={10}
+                                placeholder="비밀번호(최대 10자)"
                                 onChange={(e) => {
-                                    setPassword(e.currentTarget.value);
+                                    setPassword(e.currentTarget.value.trim());
                                 }}
+                                required
                                 defaultValue={detail?.password}
                             />
                         </div>

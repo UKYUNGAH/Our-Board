@@ -14,16 +14,20 @@ export default function Write() {
 
     const writeData = async () => {
         try {
-            const res = await fetch('/api/post/write', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ title, nickname, password, text, date }),
-            });
-            if (res.ok) {
-                router.push('/');
-                console.log('작성 성공');
+            if (title.trim() === '' || nickname.trim() === '' || password.trim() === '' || text.trim() === '') {
+                alert('빈칸을 모두 입력해주세요!');
             } else {
-                console.log('전송 실패');
+                const res = await fetch('/api/post/write', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, nickname, password, text, date }),
+                });
+                if (res.ok) {
+                    router.push('/');
+                    console.log('작성 성공');
+                } else {
+                    console.log('전송 실패');
+                }
             }
         } catch (error) {
             console.log('오류남:', error);
@@ -44,23 +48,28 @@ export default function Write() {
                             onChange={(e) => {
                                 setTitle(e.currentTarget.value);
                             }}
+                            required={true}
                         />
                     </div>
                     <div className="w_mid">
                         <div className="wm_top">
                             <input
                                 type="text"
-                                placeholder="닉네임"
+                                placeholder="닉네임(최대 10자)"
+                                maxLength={10}
                                 onChange={(e) => {
-                                    setNickname(e.currentTarget.value);
+                                    setNickname(e.currentTarget.value.trim());
                                 }}
+                                required={true}
                             />
                             <input
                                 type="password"
                                 placeholder="비밀번호"
+                                maxLength={10}
                                 onChange={(e) => {
-                                    setPassword(e.currentTarget.value);
+                                    setPassword(e.currentTarget.value.trim());
                                 }}
+                                required={true}
                             />
                         </div>
                         <div className="p_box">
@@ -75,6 +84,7 @@ export default function Write() {
                             onChange={(e) => {
                                 setText(e.currentTarget.value);
                             }}
+                            required={true}
                         ></textarea>
                     </div>
 
