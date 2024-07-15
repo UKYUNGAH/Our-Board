@@ -84,7 +84,7 @@ const Header = () => {
                                 </Link>
                             </h3>
                             <Link className="my_profile" href={'https://my.surfit.io/w/989694903'}>
-                                🔗 개발자의 서핏 이력서 보러가기
+                                🔗 개발자의 이력서 보러가기
                             </Link>
                         </nav>
                     </div>

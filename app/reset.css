@@ -96,12 +96,10 @@ input[type='submit'],
 input[type='image'],
 button {
     border-radius: 0;
-    -webkit-appearance: none;
     box-sizing: border-box;
 }
 textarea {
     border-radius: 0;
-    -webkit-appearance: none;
     border: none;
     outline: none;
     resize: none;
@@ -285,4 +283,7 @@ button {
     border-radius: 0;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
+}
+button {
+    color: inherit;
 }
