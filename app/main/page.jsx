@@ -10,11 +10,17 @@ export default function Main() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const timer = setTimeout(() => {
-            setLoading(false);
-        }, 3000);
+        const isFirst = sessionStorage.getItem('firstVisit');
+        if (!isFirst) {
+            const timer = setTimeout(() => {
+                setLoading(false);
+                sessionStorage.setItem('firstVisit', 'true');
+            }, 3000);
 
-        return () => clearTimeout(timer);
+            return () => clearTimeout(timer);
+        } else {
+            setLoading(false);
+        }
     }, []);
 
     useEffect(() => {
@@ -28,8 +34,6 @@ export default function Main() {
                 setList(data);
             } catch (error) {
                 console.log('에러남:', error);
-            } finally {
-                setLoading(true);
             }
         };
 
