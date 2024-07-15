@@ -276,12 +276,13 @@ select {
     font-style: normal;
 }
 
-/*사파리 버튼 초기화*/
-input[type='text'],
-input[type='password'],
-input[type='button'],
-input[type='submit'],
-textarea {
+input,
+textarea,
+button {
+    appearance: none;
+    -moz-appearance: none;
     -webkit-appearance: none;
+    border-radius: 0;
     -webkit-border-radius: 0;
+    -moz-border-radius: 0;
 }
