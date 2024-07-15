@@ -48,7 +48,10 @@ export default function Main() {
                 <div className="list_wrap">
                     <div className="all_title">
                         <h2>OUR STORY</h2>
-                        <p>다양한 사람을 만나고 생각의 폭을 넓혀보세요.</p>
+                        <p>
+                            다양한 사람을 만나고
+                            <br /> 생각의 폭을 넓혀보세요.
+                        </p>
                     </div>
                     <div className="btn_wrap">
                         <Link href={'/write'} className="write_btn">

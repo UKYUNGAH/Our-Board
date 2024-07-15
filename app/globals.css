@@ -19,6 +19,12 @@
     top: 0;
     color: var(--white-color);
 }
+.header .desktop {
+    display: block;
+}
+.header .mobile {
+    display: none;
+}
 .header h1 {
     font-size: 30px;
     color: var(--white-color);
@@ -148,6 +154,9 @@
 .all_title p {
     font-size: 24px;
     color: var(--point-color);
+}
+.all_title p br {
+    display: none;
 }
 
 .list_wrap .btn_wrap {
@@ -619,5 +628,101 @@
     100% {
         left: 25px;
         background-color: rgba(255, 255, 255, 0.8);
+    }
+}
+
+@media (max-width: 880px) {
+    .loading h1 span {
+        font-size: 68px;
+    }
+    .content {
+        padding: 0;
+    }
+    .header {
+        background: none;
+        right: 0;
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+    .header .desktop {
+        display: none;
+    }
+    .header .mobile {
+        display: block;
+        width: 100%;
+    }
+
+    .mobile button.ham_btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 2;
+    }
+    .mobile button.ham_btn img {
+        width: 40px;
+    }
+
+    .wrap {
+        display: block;
+    }
+    .content {
+        width: 94%;
+        margin: 0 auto;
+    }
+    .all_title {
+        width: 100%;
+    }
+    .all_title h2 {
+        font-size: 80px;
+    }
+    .all_title p {
+        letter-spacing: 2px;
+    }
+    .all_title p br {
+        display: block;
+    }
+    .mobile_nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #fff;
+        z-index: 10;
+    }
+    .mobile_nav .text {
+        color: var(--point-color);
+        font-size: 20px;
+        font-weight: 500;
+        margin-bottom: 20px;
+    }
+    .mobile_nav .text:hover,
+    .mobile_nav .text:active {
+        color: var(--hover-color);
+        text-shadow: 4px 3px 2px #aaa;
+        transition: all ease-in 0.2s;
+    }
+    .mobile_nav h1 {
+        color: var(--point-color);
+        padding: 40px 25px;
+        font-size: 50px;
+        font-weight: 900;
+        text-shadow: 3px 0 1px #333;
+        margin-bottom: 0;
+    }
+    .close_btn {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+    .close_btn img {
+        width: 40px;
+    }
+    .my_profile {
+        color: var(--point-color) !important;
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
     }
 }

@@ -6,7 +6,10 @@ export default function Test() {
         <div className="test content">
             <div className="all_title">
                 <h2>OUR TEST</h2>
-                <p>다양한 테스트를 즐겨보세요!</p>
+                <p>
+                    다양한 테스트를
+                    <br /> 즐겨보세요!
+                </p>
             </div>
             <div className="test_wrap">
                 <ul>
