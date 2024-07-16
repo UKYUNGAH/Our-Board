@@ -159,6 +159,35 @@
     display: none;
 }
 
+.search_wrap {
+    width: 78%;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+}
+.search_wrap:focus-within {
+    border-color: #aaa;
+}
+
+.search_wrap input {
+    width: 95%;
+    font-size: 16px;
+}
+
+.search_wrap input::placeholder {
+    color: #aaa;
+}
+.search_wrap button {
+    text-align: end;
+    width: 5%;
+}
+.search_wrap img {
+    width: 24px;
+}
+
 .list_wrap .btn_wrap {
     display: flex;
     justify-content: flex-end;
@@ -344,9 +373,10 @@
 .detail {
 }
 .detail .detail_wrap {
-    min-height: 600px;
     padding: 20px 0;
     border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 40px;
 }
 .detail .title {
     display: flex;
@@ -385,8 +415,109 @@
     font-size: 16px;
     white-space: pre-line;
     padding: 30px 10px;
+    min-height: 380px;
 }
 
+.comment {
+    margin-bottom: 50px;
+}
+.comment .c_write {
+    margin-bottom: 80px;
+}
+.comment .c_write h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+}
+.comment .c_write span {
+}
+.comment .c_write .write_box {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+.comment .c_write .input_box {
+    width: 18%;
+}
+.comment .c_write .input_box input {
+    display: block;
+    width: 100%;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    border: 1px solid var(--border-color);
+    font-size: 14px;
+}
+.comment .c_write .input_box input::placeholder {
+    color: #aaa;
+}
+.comment .c_write textarea {
+    width: 80%;
+    min-height: 110px;
+    padding: 16px 16px 24px;
+    border: 1px solid var(--border-color);
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+.comment .c_write textarea::placeholder {
+    color: #aaa;
+}
+.comment .c_write .btn_box {
+    display: flex;
+    justify-content: flex-end;
+}
+.comment .c_write button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    font-weight: 600;
+    background: var(--point-color);
+    color: var(--white-color);
+}
+
+/* 댓글 상세 */
+.comment .c_detail {
+    padding: 30px 8px;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+.comment .c_detail .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.comment .c_detail .t_left {
+}
+.comment .c_detail h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+.comment .c_detail h5 {
+    font-size: 13px;
+    font-weight: 400;
+    color: #aaa;
+}
+.comment .c_detail .t_right {
+    display: flex;
+    gap: 20px;
+}
+.comment .c_detail .t_right button {
+    font-size: 13px;
+    color: #aaa;
+}
+.comment .c_detail .bottom {
+}
+.comment .c_detail .bottom p {
+    padding: 16px 0 32px;
+    font-size: 16px;
+    width: 100%;
+    white-space: pre-line;
+}
+.comment .c_detail button.reply_btn {
+    color: var(--point-color);
+    font-size: 16px;
+}
 .modal {
     width: 100%;
     height: 100vh;
@@ -724,5 +855,27 @@
         position: absolute;
         bottom: 20px;
         right: 20px;
+    }
+    .logo_wrap {
+        display: inline-block;
+    }
+
+    .search_wrap {
+        width: 88%;
+    }
+    .comment .c_write .write_box {
+        display: block;
+    }
+    .comment .c_write .input_box {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .comment .c_write .input_box input {
+        width: 48%;
+        margin-bottom: 10px;
+    }
+    .comment .c_write textarea {
+        width: 100%;
     }
 }

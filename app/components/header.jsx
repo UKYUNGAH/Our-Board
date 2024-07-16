@@ -53,7 +53,15 @@ const Header = () => {
                 {/* 햄버거 버튼 클릭시 뜨는거 */}
                 {mobileView && (
                     <div className="mobile_nav">
-                        <h1>Our Life</h1>
+                        <Link
+                            href={'/'}
+                            onClick={() => {
+                                toggleMobileMenu();
+                            }}
+                            className="logo_wrap"
+                        >
+                            <h1>Our Life</h1>
+                        </Link>
                         <button
                             className="close_btn"
                             onClick={() => {

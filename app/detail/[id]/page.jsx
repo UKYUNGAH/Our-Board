@@ -18,6 +18,13 @@ export default function Detail() {
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
 
+    // 댓글에 필요함
+    const [commentText, setCommentText] = useState('');
+    const [commentName, setCommentName] = useState('');
+    const [commentPassword, setCommentPassword] = useState('');
+    const [commentList, setCommentList] = useState([]);
+    const date = new Date().toISOString();
+
     useEffect(() => {
         const detailData = async () => {
             try {
@@ -32,6 +39,7 @@ export default function Detail() {
         };
         detailData();
     }, [id]);
+
     // 오픈
     const handleModalOpen = (type) => {
         setModalType(type);
@@ -48,6 +56,41 @@ export default function Detail() {
         setPassword(e.target.value);
     };
 
+    // 댓글 작성 버튼
+    const commentBtn = async () => {
+        try {
+            const res = await fetch('/api/post/comment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    postId: id,
+                    name: commentName,
+                    commentPassword: commentPassword,
+                    content: commentText,
+                    date: date,
+                }),
+            });
+            if (res.ok) {
+                const newComment = {
+                    postId: id,
+                    name: commentName,
+                    content: commentText,
+                    date: date,
+                };
+                setCommentList((prevComments) => [...prevComments, newComment]);
+                setCommentText('');
+                setCommentName('');
+                setCommentPassword('');
+                console.log('댓글 작성 완료!');
+            } else {
+                console.log('작성 실패');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    // 패스워드 확인
     const passwordData = async () => {
         try {
             const res = await fetch('/api/post/password', {
@@ -78,6 +121,21 @@ export default function Detail() {
             setPasswordError(true);
         }
     };
+
+    useEffect(() => {
+        const commentData = async () => {
+            try {
+                const res = await fetch(`/api/post/commentDetail?postId=${id}`, {
+                    method: 'GET',
+                });
+                const data = await res.json();
+                setCommentList(data);
+            } catch (error) {
+                console.log('에러남,', error);
+            }
+        };
+        commentData();
+    }, []);
 
     return (
         <div className="detail content">
@@ -119,6 +177,17 @@ export default function Detail() {
                     <p>{detail?.text}</p>
                 </div>
             </div>
+            <Comment
+                commentText={commentText}
+                setCommentText={setCommentText}
+                commentName={commentName}
+                setCommentName={setCommentName}
+                commentPassword={commentPassword}
+                setCommentPassword={setCommentPassword}
+                commentList={commentList}
+                commentBtn={commentBtn}
+                date={date}
+            />
             {modalType && (
                 <Modal
                     modalType={modalType}
@@ -133,6 +202,7 @@ export default function Detail() {
     );
 }
 
+// 모달창
 function Modal({ modalType, handleModalClose, password, handlePasswordChange, passwordData, passwordError }) {
     return (
         <div className="modal">
@@ -158,6 +228,87 @@ function Modal({ modalType, handleModalClose, password, handlePasswordChange, pa
                     </button>
                 </div>
             </div>
+        </div>
+    );
+}
+
+// 댓글
+function Comment({
+    commentText,
+    setCommentText,
+    commentName,
+    setCommentName,
+    commentPassword,
+    setCommentPassword,
+    commentList,
+    commentBtn,
+    date,
+}) {
+    return (
+        <div className="comment">
+            <div>
+                <div className="c_write">
+                    <h3>
+                        <span>{commentList.length}</span>개의 댓글
+                    </h3>
+                    <div className="write_box">
+                        <div className="input_box">
+                            <input
+                                type="text"
+                                placeholder="닉네임"
+                                defaultValue={commentName}
+                                onChange={(e) => {
+                                    setCommentName(e.currentTarget.value);
+                                }}
+                            />
+                            <input
+                                type="password"
+                                placeholder="비밀번호"
+                                defaultValue={commentPassword}
+                                onChange={(e) => {
+                                    setCommentPassword(e.currentTarget.value);
+                                }}
+                            />
+                        </div>
+                        <textarea
+                            name=""
+                            id=""
+                            placeholder="댓글을 작성하세요"
+                            defaultValue={commentText}
+                            onChange={(e) => {
+                                setCommentText(e.currentTarget.value);
+                            }}
+                        ></textarea>
+                    </div>
+
+                    <div className="btn_box">
+                        <button type="button" className="btn2" onClick={commentBtn}>
+                            댓글 작성
+                        </button>
+                    </div>
+                </div>
+                {commentList.map((a, i) => {
+                    return (
+                        <div className="c_detail" key={i}>
+                            <div className="top">
+                                <div className="t_left">
+                                    <h4>{a.name}</h4>
+                                    <h5>{formatDate(a.date)}</h5>
+                                </div>
+                                <div className="t_right">
+                                    <button type="button">수정</button>
+                                    <button type="button">삭제</button>
+                                </div>
+                            </div>
+                            <div className="bottom">
+                                <p>{a.content}</p>
+                            </div>
+                            <button className="reply_btn">+ 답글달기</button>
+                        </div>
+                    );
+                })}
+            </div>
+            {/* <Link href={'/'}>홈으로 돌아가기</Link> */}
         </div>
     );
 }
