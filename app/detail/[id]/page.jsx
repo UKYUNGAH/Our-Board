@@ -17,6 +17,8 @@ export default function Detail() {
     const [modalType, setModalType] = useState('');
     const [password, setPassword] = useState('');
     const [passwordError, setPasswordError] = useState(false);
+    const [editComment, setEditComment] = useState(null);
+    const [deleteComment, setDeleteComment] = useState(null);
 
     // 댓글에 필요함
     const [commentText, setCommentText] = useState('');
@@ -25,6 +27,7 @@ export default function Detail() {
     const [commentList, setCommentList] = useState([]);
     const date = new Date().toISOString();
 
+    // 글 삭제
     useEffect(() => {
         const detailData = async () => {
             try {
@@ -40,88 +43,64 @@ export default function Detail() {
         detailData();
     }, [id]);
 
-    // 오픈
+    // 모달창 열기
     const handleModalOpen = (type) => {
         setModalType(type);
-        console.log('모달 오픈:', type);
     };
-    // 닫기
+    // 모달창 닫기
     const handleModalClose = () => {
         setModalType('');
         setPassword('');
         setPasswordError(false);
+        setEditComment(null);
+        setDeleteComment(null);
+        setCommentText('');
     };
 
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
+        setCommentPassword(e.target.value);
     };
 
     // 댓글 작성 버튼
     const commentBtn = async () => {
-        try {
-            const res = await fetch('/api/post/comment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    postId: id,
-                    name: commentName,
-                    commentPassword: commentPassword,
-                    content: commentText,
-                    date: date,
-                }),
-            });
-            if (res.ok) {
-                const newComment = {
-                    postId: id,
-                    name: commentName,
-                    content: commentText,
-                    date: date,
-                };
-                setCommentList((prevComments) => [...prevComments, newComment]);
-                setCommentText('');
-                setCommentName('');
-                setCommentPassword('');
-                console.log('댓글 작성 완료!');
-            } else {
-                console.log('작성 실패');
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
-    // 패스워드 확인
-    const passwordData = async () => {
-        try {
-            const res = await fetch('/api/post/password', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ id, password }),
-            });
-            const data = await res.json(); // 여기서 await 추가
-
-            if (data.success) {
-                setPasswordError(false);
-                handleModalClose();
-                if (modalType === 'edit') {
-                    router.push(`/edit/${id}`);
-                } else if (modalType === 'delete') {
-                    await fetch(`/api/post/delete?id=${id}`, {
-                        method: 'DELETE',
-                    });
-                    router.push('/');
+        if (commentText.trim() === '' || commentName.trim() === '' || commentPassword.trim() === '') {
+            alert('빈칸을 모두 입력해주세요.');
+        } else {
+            try {
+                const res = await fetch('/api/post/comment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        postId: id,
+                        name: commentName,
+                        commentPassword: commentPassword,
+                        content: commentText,
+                        date: date,
+                    }),
+                });
+                if (res.ok) {
+                    const newComment = {
+                        postId: id,
+                        name: commentName,
+                        content: commentText,
+                        date: date,
+                    };
+                    setCommentList((prevComments) => [...prevComments, newComment]);
+                    setCommentText('');
+                    setCommentName('');
+                    setCommentPassword('');
+                    console.log('댓글 작성 완료!');
+                } else {
+                    console.log('작성 실패');
                 }
-            } else {
-                setPasswordError(true);
+            } catch (error) {
+                console.log(error);
             }
-        } catch (error) {
-            console.log('에러남:', error);
-            setPasswordError(true);
         }
     };
 
+    // 댓글 불러오기
     useEffect(() => {
         const commentData = async () => {
             try {
@@ -135,8 +114,127 @@ export default function Detail() {
             }
         };
         commentData();
-    }, []);
+    }, [id]);
 
+    // 댓글 수정
+    const handleCommentEdit = (comment) => {
+        setModalType('commentEdit');
+        setEditComment(comment);
+        setCommentText(comment.content);
+    };
+
+    const handleCommentDelete = (comment) => {
+        setModalType('commentDelete');
+        setDeleteComment(comment);
+    };
+
+    const commentEdit = async () => {
+        try {
+            const res = await fetch('/api/post/commentEdit', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: editComment._id,
+                    content: commentText,
+                }),
+            });
+            if (res.ok) {
+                setCommentList((prevComments) =>
+                    prevComments.map((comment) =>
+                        comment._id === editComment._id ? { ...comment, content: commentText } : comment
+                    )
+                );
+                handleModalClose();
+                console.log('댓글 수정 완료!');
+            } else {
+                console.log('수정 실패');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const commentDelete = async () => {
+        try {
+            const res = await fetch(`/api/post/commentDelete`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    id: deleteComment._id,
+                    password: password,
+                }),
+            });
+            if (res.ok) {
+                setCommentList((prevComments) => prevComments.filter((comment) => comment._id !== deleteComment._id));
+                handleModalClose();
+                console.log('댓글 삭제 완료!');
+            } else {
+                console.log('삭제 실패');
+                setPasswordError(true);
+            }
+        } catch (error) {
+            console.log(error);
+            setPasswordError(true);
+        }
+    };
+
+    // 패스워드 확인
+    const passwordData = async () => {
+        if (modalType === 'commentDelete' || modalType === 'commentEdit') {
+            try {
+                const res = await fetch('/api/post/commentPassword', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        id: modalType === 'commentDelete' ? deleteComment._id : editComment._id,
+                        password: password,
+                    }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                    setPasswordError(false); // 비밀번호가 맞으면 에러를 false로 설정
+                    handleModalClose(); // 모달 닫기
+                    if (modalType === 'commentEdit') {
+                        commentEdit(); // 댓글 수정 함수 호출
+                    } else if (modalType === 'commentDelete') {
+                        commentDelete(); // 댓글 삭제 함수 호출
+                    }
+                } else {
+                    setPasswordError(true); // 비밀번호가 틀리면 에러를 true로 설정
+                }
+            } catch (error) {
+                console.log(error);
+                setPasswordError(true);
+            }
+        } else {
+            // 게시글 수정 또는 삭제
+            try {
+                const res = await fetch('/api/post/password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id, password }),
+                });
+                const data = await res.json();
+                if (data.success) {
+                    setPasswordError(false);
+                    handleModalClose();
+                    if (modalType === 'edit') {
+                        router.push(`/edit/${id}`);
+                    } else if (modalType === 'delete') {
+                        await fetch(`/api/post/delete?id=${id}`, {
+                            method: 'DELETE',
+                        });
+                        router.push('/');
+                    }
+                } else {
+                    setPasswordError(true);
+                }
+            } catch (error) {
+                console.log('에러남:', error);
+                setPasswordError(true);
+            }
+        }
+    };
     return (
         <div className="detail content">
             <div className="all_title">
@@ -186,6 +284,8 @@ export default function Detail() {
                 setCommentPassword={setCommentPassword}
                 commentList={commentList}
                 commentBtn={commentBtn}
+                handleCommentEdit={handleCommentEdit}
+                handleCommentDelete={handleCommentDelete}
                 date={date}
             />
             {modalType && (
@@ -196,6 +296,10 @@ export default function Detail() {
                     handlePasswordChange={handlePasswordChange}
                     passwordData={passwordData}
                     passwordError={passwordError}
+                    commentText={commentText}
+                    setCommentText={setCommentText}
+                    commentEdit={commentEdit}
+                    commentDelete={commentDelete}
                 />
             )}
         </div>
@@ -203,28 +307,61 @@ export default function Detail() {
 }
 
 // 모달창
-function Modal({ modalType, handleModalClose, password, handlePasswordChange, passwordData, passwordError }) {
+function Modal({
+    modalType,
+    handleModalClose,
+    password,
+    handlePasswordChange,
+    passwordData,
+    passwordError,
+    commentText,
+    setCommentText,
+    commentEdit,
+    commentDelete,
+}) {
     return (
         <div className="modal">
             <div className="m_wrap">
                 <div className="m_box">
-                    <h1>비밀번호 확인이 필요합니다.</h1>
-                    <input
-                        type="password"
-                        name="modal_password"
-                        id="modal_password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                        placeholder="비밀번호를 입력해주세요."
-                    />
-                    {passwordError && (
-                        <label htmlFor="modal_password">* 비밀번호가 틀렸습니다. 다시 입력해주세요.</label>
+                    {(modalType === 'edit' ||
+                        modalType === 'delete' ||
+                        modalType === 'commentDelete' ||
+                        modalType === 'commentEdit') && (
+                        <>
+                            <h1>비밀번호 확인이 필요합니다.</h1>
+                            <input
+                                type="password"
+                                name="modal_password"
+                                id="modal_password"
+                                value={password}
+                                onChange={handlePasswordChange}
+                                placeholder="비밀번호를 입력해주세요."
+                            />
+                            {passwordError && (
+                                <label htmlFor="modal_password">* 비밀번호가 틀렸습니다. 다시 입력해주세요.</label>
+                            )}
+                            <button type="submit" className="m_ok_btn" onClick={passwordData}>
+                                확인
+                            </button>
+                        </>
                     )}
-                    <button type="submit" className="m_ok_btn" onClick={passwordData}>
-                        확인
-                    </button>
+
+                    {/* {modalType === 'commentEdit' && !passwordError && (
+                        <div className="comment_edit">
+                            <h1>댓글 수정</h1>
+                            <textarea
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="댓글을 수정하세요"
+                            />
+                            <button type="submit" className="m_ok_btn" onClick={commentEdit}>
+                                수정
+                            </button>
+                        </div>
+                    )} */}
+
                     <button type="button" className="m_close_btn" onClick={handleModalClose}>
-                        X
+                        <img src="/close_i.png" alt="" />
                     </button>
                 </div>
             </div>
@@ -242,6 +379,8 @@ function Comment({
     setCommentPassword,
     commentList,
     commentBtn,
+    handleCommentEdit,
+    handleCommentDelete,
     date,
 }) {
     return (
@@ -256,28 +395,33 @@ function Comment({
                             <input
                                 type="text"
                                 placeholder="닉네임"
-                                defaultValue={commentName}
+                                maxLength={10}
+                                value={commentName}
                                 onChange={(e) => {
-                                    setCommentName(e.currentTarget.value);
+                                    setCommentName(e.currentTarget.value.replace(/\s/g, ''));
                                 }}
+                                required={true}
                             />
                             <input
                                 type="password"
                                 placeholder="비밀번호"
-                                defaultValue={commentPassword}
+                                maxLength={10}
+                                value={commentPassword}
                                 onChange={(e) => {
-                                    setCommentPassword(e.currentTarget.value);
+                                    setCommentPassword(e.currentTarget.value.replace(/\s/g, ''));
                                 }}
+                                required={true}
                             />
                         </div>
                         <textarea
-                            name=""
-                            id=""
+                            name="commentTextarea"
+                            id="commentTextarea"
                             placeholder="댓글을 작성하세요"
-                            defaultValue={commentText}
+                            // value={commentText}
                             onChange={(e) => {
                                 setCommentText(e.currentTarget.value);
                             }}
+                            required={true}
                         ></textarea>
                     </div>
 
@@ -296,8 +440,22 @@ function Comment({
                                     <h5>{formatDate(a.date)}</h5>
                                 </div>
                                 <div className="t_right">
-                                    <button type="button">수정</button>
-                                    <button type="button">삭제</button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            handleCommentEdit(a);
+                                        }}
+                                    >
+                                        수정
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            handleCommentDelete(a);
+                                        }}
+                                    >
+                                        삭제
+                                    </button>
                                 </div>
                             </div>
                             <div className="bottom">

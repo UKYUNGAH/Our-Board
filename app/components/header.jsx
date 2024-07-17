@@ -40,6 +40,9 @@ const Header = () => {
                         </Link>
                     </h3>
                 </nav>
+                <Link className="my_profile" href={'https://my.surfit.io/w/989694903'}>
+                    🔗 개발자의 프로필
+                </Link>
             </div>
             <div className="mobile">
                 <button
@@ -92,7 +95,7 @@ const Header = () => {
                                 </Link>
                             </h3>
                             <Link className="my_profile" href={'https://my.surfit.io/w/989694903'}>
-                                🔗 개발자의 이력서 보러가기
+                                🔗 개발자의 프로필
                             </Link>
                         </nav>
                     </div>

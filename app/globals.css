@@ -19,6 +19,9 @@
     top: 0;
     color: var(--white-color);
 }
+.header .logo a {
+    text-shadow: 3px 0 1px #333;
+}
 .header .desktop {
     display: block;
 }
@@ -79,6 +82,11 @@
     bottom: calc(var(--border-radius) * -1);
     box-shadow: 10px -10px 0 10px var(--white-color);
     border-radius: 0 100vw 0 0;
+}
+.header .desktop .my_profile {
+    position: absolute;
+    bottom: 20px;
+    left: 25px;
 }
 
 /* ======== 본문 style */
@@ -571,6 +579,20 @@
     font-size: 16px;
     font-weight: 400;
 }
+.modal button.m_close_btn img {
+    width: 24px;
+}
+
+.modal .comment_edit {
+}
+.modal .comment_edit h1 {
+}
+.modal .comment_edit textarea {
+    width: 100%;
+    min-height: 130px;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+}
 
 .test ul {
     display: grid;
@@ -809,6 +831,7 @@
     }
     .all_title p {
         letter-spacing: 2px;
+        font-size: 22px;
     }
     .all_title p br {
         display: block;
